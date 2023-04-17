@@ -208,11 +208,6 @@ int main(int argc, char *argv[]) {
 	// need these limits for it to run on my machine
     requiredLimits.limits.minUniformBufferOffsetAlignment = 64;
     requiredLimits.limits.minStorageBufferOffsetAlignment = 32;
-    requiredLimits.limits.maxVertexBufferArrayStride = 20;
-    requiredLimits.limits.maxBufferSize = 300;
-	// this has to be set to 3 or I get
-	// message: (Stage { stage: VERTEX, error: TooManyVaryings { used: 3, limit: 0 }
-	requiredLimits.limits.maxInterStageShaderComponents = 3;
 	// We use at most 1 bind group for now
 	requiredLimits.limits.maxBindGroups = 1;
 	// We use at most 1 uniform buffer per stage
@@ -305,9 +300,25 @@ int main(int argc, char *argv[]) {
 		.targets = &colorTarget
 	};
 
+	// Create binding layout
+	WGPUBindGroupLayoutEntry bindingLayout = BIND_GROUP_DEFAULT;
+	// The binding index as used in the @binding attribute in the shader
+	bindingLayout.binding = 0;
+	// The stage that needs to access this resource
+	bindingLayout.visibility = WGPUShaderStage_Vertex;
+	bindingLayout.buffer.type = WGPUBufferBindingType_Uniform;
+	bindingLayout.buffer.minBindingSize = sizeof(float);
+
+	// Create a bind group layout
+	WGPUBindGroupLayoutDescriptor bindGroupLayoutDesc = {
+		.entryCount = 1,
+		.entries = &bindingLayout
+	};
+	WGPUBindGroupLayout bindGroupLayout = wgpuDeviceCreateBindGroupLayout(device, &bindGroupLayoutDesc);
+
 	WGPUPipelineLayoutDescriptor layoutDesc = {
-		.bindGroupLayoutCount = 0,
-		.bindGroupLayouts = NULL
+		.bindGroupLayoutCount = 1,
+		.bindGroupLayouts = &bindGroupLayout
 	};
 
 	WGPURenderPipelineDescriptor pipelineDesc = {
@@ -338,22 +349,6 @@ int main(int argc, char *argv[]) {
 
 	WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &pipelineDesc);
 	printf( "Render pipeline: %p\n", pipeline);
-
-	// Create binding layout
-	WGPUBindGroupLayoutEntry bindingLayout = BIND_GROUP_DEFAULT;
-	// The binding index as used in the @binding attribute in the shader
-	bindingLayout.binding = 0;
-	// The stage that needs to access this resource
-	bindingLayout.visibility = WGPUShaderStage_Vertex;
-	bindingLayout.buffer.type = WGPUBufferBindingType_Uniform;
-	bindingLayout.buffer.minBindingSize = sizeof(float);
-
-	// Create a bind group layout
-	WGPUBindGroupLayoutDescriptor bindGroupLayoutDesc = {
-		.entryCount = 1,
-		.entries = &bindingLayout
-	};
-	WGPUBindGroupLayout bindGroupLayout = wgpuDeviceCreateBindGroupLayout(device, &bindGroupLayoutDesc);
 
 	struct GeometryData geometrydata = {malloc(sizeof(float)), 0, malloc(sizeof(size_t)), 0};
 	bool success = loadGeometry(RESOURCE_DIR "/webgpu.txt", &geometrydata);
@@ -434,6 +429,8 @@ int main(int argc, char *argv[]) {
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
+		float t = glfwGetTime();
+		wgpuQueueWriteBuffer(queue, uniformBuffer, 0, &t, sizeof(float));
 
 		WGPUTextureView nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);
 		if (!nextTexture) {
