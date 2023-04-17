@@ -1,3 +1,5 @@
+#---------- HELPER V1
+
 add_library(helper_v1 3_input_geometry/helper.c)
 target_include_directories(helper_v1 PUBLIC ${CMAKE_SOURCE_DIR}/3_input_geometry)
 target_link_libraries(helper_v1 PRIVATE webgpu_dawn)

@@ -46,7 +46,7 @@
 },
 {
   "directory": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build",
-  "command": "/usr/bin/cc  -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/third_party/glfw/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/gen/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/glfw3webgpu/.  -o CMakeFiles/vertex_attribute.dir/3_input_geometry/vertex_attribute.c.o -c /home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry/vertex_attribute.c",
+  "command": "/usr/bin/cc  -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/third_party/glfw/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/gen/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/glfw3webgpu/. -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry  -o CMakeFiles/vertex_attribute.dir/3_input_geometry/vertex_attribute.c.o -c /home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry/vertex_attribute.c",
   "file": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry/vertex_attribute.c"
 },
 {
@@ -76,8 +76,18 @@
 },
 {
   "directory": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build",
+  "command": "/usr/bin/cc  -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/gen/include  -o CMakeFiles/helper_v2.dir/4_uniforms/helper_v2.c.o -c /home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/helper_v2.c",
+  "file": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/helper_v2.c"
+},
+{
+  "directory": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build",
   "command": "/usr/bin/cc -DRESOURCE_DIR=\\\"/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/resources\\\" -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/third_party/glfw/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/gen/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/glfw3webgpu/. -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry  -o CMakeFiles/a_first_uniform.dir/4_uniforms/a_first_uniform.c.o -c /home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/a_first_uniform.c",
   "file": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/a_first_uniform.c"
+},
+{
+  "directory": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build",
+  "command": "/usr/bin/cc -DRESOURCE_DIR=\\\"/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/resources\\\" -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/third_party/glfw/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/dawn/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/gen/include -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/glfw3webgpu/. -I/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/3_input_geometry  -o CMakeFiles/more_uniforms.dir/4_uniforms/more_uniforms.c.o -c /home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/more_uniforms.c",
+  "file": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/4_uniforms/more_uniforms.c"
 },
 {
   "directory": "/home/bobajeff/projects/webgpu_native_exp/LearnWebGPU_Dawn/build/dawn/third_party/spirv-tools/source",
