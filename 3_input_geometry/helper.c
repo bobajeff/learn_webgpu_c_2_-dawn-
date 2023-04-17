@@ -66,37 +66,40 @@ void onDeviceError (WGPUErrorType type, char const* message, void* pUserData) {
 };
 
 void setDefault(WGPULimits *limits) {
-    limits->maxTextureDimension1D = 0;
-    limits->maxTextureDimension2D = 0;
-    limits->maxTextureDimension3D = 0;
-    limits->maxTextureArrayLayers = 0;
-    limits->maxBindGroups = 0;
-    limits->maxBindingsPerBindGroup = 0;
-    limits->maxDynamicUniformBuffersPerPipelineLayout = 0;
-    limits->maxDynamicStorageBuffersPerPipelineLayout = 0;
-    limits->maxSampledTexturesPerShaderStage = 0;
-    limits->maxSamplersPerShaderStage = 0;
-    limits->maxStorageBuffersPerShaderStage = 0;
-    limits->maxStorageTexturesPerShaderStage = 0;
-    limits->maxUniformBuffersPerShaderStage = 0;
-    limits->maxUniformBufferBindingSize = 0;
-    limits->maxStorageBufferBindingSize = 0;
-    limits->minUniformBufferOffsetAlignment = 0;
-    limits->minStorageBufferOffsetAlignment = 0;
-    limits->maxVertexBuffers = 0;
-    limits->maxBufferSize = 0;
-    limits->maxVertexAttributes = 0;
-    limits->maxVertexBufferArrayStride = 0;
-    limits->maxInterStageShaderComponents = 0;
-    limits->maxInterStageShaderVariables = 0;
-    limits->maxColorAttachments = 0;
-    limits->maxColorAttachmentBytesPerSample = 0;
-    limits->maxComputeWorkgroupStorageSize = 0;
-    limits->maxComputeInvocationsPerWorkgroup = 0;
-    limits->maxComputeWorkgroupSizeX = 0;
-    limits->maxComputeWorkgroupSizeY = 0;
-    limits->maxComputeWorkgroupSizeZ = 0;
-    limits->maxComputeWorkgroupsPerDimension = 0;
+    *limits = (WGPULimits){
+        .maxTextureDimension1D = 0,
+        .maxTextureDimension2D = 0,
+        .maxTextureDimension3D = 0,
+        .maxTextureArrayLayers = 0,
+        .maxBindGroups = 0,
+        .maxBindingsPerBindGroup = 0,
+        .maxDynamicUniformBuffersPerPipelineLayout = 0,
+        .maxDynamicStorageBuffersPerPipelineLayout = 0,
+        .maxSampledTexturesPerShaderStage = 0,
+        .maxSamplersPerShaderStage = 0,
+        .maxStorageBuffersPerShaderStage = 0,
+        .maxStorageTexturesPerShaderStage = 0,
+        .maxUniformBuffersPerShaderStage = 0,
+        .maxUniformBufferBindingSize = 0,
+        .maxStorageBufferBindingSize = 0,
+        .minUniformBufferOffsetAlignment = 0,
+        .minStorageBufferOffsetAlignment = 0,
+        .maxVertexBuffers = 0,
+        .maxBufferSize = 0,
+        .maxVertexAttributes = 0,
+        .maxVertexBufferArrayStride = 0,
+        .maxInterStageShaderComponents = 0,
+        .maxInterStageShaderVariables = 0,
+        .maxColorAttachments = 0,
+        .maxColorAttachmentBytesPerSample = 0,
+        .maxComputeWorkgroupStorageSize = 0,
+        .maxComputeInvocationsPerWorkgroup = 0,
+        .maxComputeWorkgroupSizeX = 0,
+        .maxComputeWorkgroupSizeY = 0,
+        .maxComputeWorkgroupSizeZ = 0,
+        .maxComputeWorkgroupsPerDimension = 0
+    };
+
 }
 
 void cCallback(WGPUErrorType type, char const* message, void* userdata) {

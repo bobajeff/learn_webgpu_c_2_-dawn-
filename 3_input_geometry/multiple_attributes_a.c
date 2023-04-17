@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <webgpu/webgpu.h>
-// #include <webgpu/wgpu.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <glfw3webgpu.h>
@@ -10,8 +9,7 @@
 #include "helper.h"
 
 int main(int argc, char *argv[]) {
-    WGPUInstanceDescriptor desc = {};
-    desc.nextInChain = NULL;
+	WGPUInstanceDescriptor desc = { .nextInChain = NULL};
     WGPUInstance instance = wgpuCreateInstance(&desc);
     if (!instance) {
         fprintf(stderr, "Could not initialize WebGPU!\n");
@@ -33,14 +31,16 @@ int main(int argc, char *argv[]) {
 
 	printf("Requesting adapter...\n");
 	WGPUSurface surface = glfwGetWGPUSurface(instance, window);
-	WGPURequestAdapterOptions adapterOpts = {};
-	adapterOpts.compatibleSurface = surface;
+	WGPURequestAdapterOptions adapterOpts = {
+		.compatibleSurface = surface
+	};
 	WGPUAdapter adapter = requestAdapter(instance, &adapterOpts);
 	printf( "Got adapter: %p\n", adapter);
 
 	printf("Requesting device...\n");
-	WGPURequiredLimits requiredLimits = {};
-	setDefault(&requiredLimits.limits);
+	WGPURequiredLimits requiredLimits = {
+		.limits = DEFAULT_WGPU_LIMITS
+	};
 	requiredLimits.limits.maxVertexAttributes = 2;
 	requiredLimits.limits.maxVertexBuffers = 1;
 	// need these limits for it to run on my machine
@@ -51,12 +51,13 @@ int main(int argc, char *argv[]) {
 	// this has to be set to 3 or I get
 	// message: (Stage { stage: VERTEX, error: TooManyVaryings { used: 3, limit: 0 }
 	requiredLimits.limits.maxInterStageShaderComponents = 3;
-	WGPUDeviceDescriptor deviceDesc;
-	deviceDesc.nextInChain = NULL;
-	deviceDesc.label = "My Device";
-	deviceDesc.requiredFeaturesCount = 0;
-	deviceDesc.requiredLimits = &requiredLimits;
-	deviceDesc.defaultQueue.label = "The default queue";
+	WGPUDeviceDescriptor deviceDesc = {
+		.nextInChain = NULL,
+		.label = "My Device",
+		.requiredFeaturesCount = 0,
+		.requiredLimits = &requiredLimits,
+		.defaultQueue.label = "The default queue"
+	};
 	WGPUDevice device = requestDevice(adapter, &deviceDesc);
 	printf( "Got device: %p\n", device);
 
@@ -67,12 +68,13 @@ int main(int argc, char *argv[]) {
 
 	printf( "Creating swapchain...\n");
 	WGPUTextureFormat swapChainFormat = WGPUTextureFormat_BGRA8Unorm;
-	WGPUSwapChainDescriptor swapChainDesc = {};
-	swapChainDesc.width = 640;
-	swapChainDesc.height = 480;
-	swapChainDesc.usage = WGPUTextureUsage_RenderAttachment;
-	swapChainDesc.format = swapChainFormat;
-	swapChainDesc.presentMode = WGPUPresentMode_Fifo;
+	WGPUSwapChainDescriptor swapChainDesc = {
+		.width = 640,
+		.height = 480,
+		.usage = WGPUTextureUsage_RenderAttachment,
+		.format = swapChainFormat,
+		.presentMode = WGPUPresentMode_Fifo
+	};
 	WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &swapChainDesc);
 	printf( "Swapchain: %p\n", swapChain);
 
@@ -102,88 +104,104 @@ int main(int argc, char *argv[]) {
 	"}\n"
 	;
 
-	WGPUShaderModuleWGSLDescriptor shaderCodeDesc = {};
-	shaderCodeDesc.chain.next = NULL;
-	shaderCodeDesc.chain.sType = WGPUSType_ShaderModuleWGSLDescriptor;
-	shaderCodeDesc.source = shaderSource;
-	WGPUShaderModuleDescriptor shaderDesc = {};
-	// shaderDesc.hintCount = 0;
-	// shaderDesc.hints = NULL;
-	shaderDesc.nextInChain = &shaderCodeDesc.chain;
+	WGPUShaderModuleWGSLDescriptor shaderCodeDesc = {
+		.chain = (WGPUChainedStruct){
+			.next = NULL,
+			.sType = WGPUSType_ShaderModuleWGSLDescriptor
+		},
+		.source = shaderSource
+	};
+	WGPUShaderModuleDescriptor shaderDesc = {
+		.nextInChain = &shaderCodeDesc.chain
+	};
 	WGPUShaderModule shaderModule = wgpuDeviceCreateShaderModule(device, &shaderDesc);
 	printf( "Shader module: %p\n", shaderModule);
 
 	printf( "Creating render pipeline...\n");
-	WGPURenderPipelineDescriptor pipelineDesc = {};
-
+	
 	// Vertex fetch
 	// We now have 2 attributes
 	WGPUVertexAttribute vertexAttribs[2];
 
 	// Position attribute
-	vertexAttribs[0].shaderLocation = 0;
-	vertexAttribs[0].format = WGPUVertexFormat_Float32x2;
-	vertexAttribs[0].offset = 0;
+	vertexAttribs[0] = (WGPUVertexAttribute){
+		.shaderLocation = 0,
+		.format = WGPUVertexFormat_Float32x2,
+		.offset = 0
+	};
 
 	// Color attribute
-	vertexAttribs[1].shaderLocation = 1;
-	vertexAttribs[1].format = WGPUVertexFormat_Float32x3; // different type!
-	vertexAttribs[1].offset = 2 * sizeof(float); // non null offset!
+	vertexAttribs[1] = (WGPUVertexAttribute){
+		.shaderLocation = 1,
+		.format = WGPUVertexFormat_Float32x3,
+		.offset = 2 * sizeof(float)
+	};
 
-	WGPUVertexBufferLayout vertexBufferLayout = {};
-	vertexBufferLayout.attributeCount = 2;
-	vertexBufferLayout.attributes = vertexAttribs;
-	// The new stride
-	vertexBufferLayout.arrayStride = 5 * sizeof(float);
-	vertexBufferLayout.stepMode = WGPUVertexStepMode_Vertex;
+	WGPUVertexBufferLayout vertexBufferLayout = {
+		.attributeCount = 2,
+		.attributes = vertexAttribs,
+		. arrayStride = 5 * sizeof(float),
+		.stepMode = WGPUVertexStepMode_Vertex
+	};
 
-	pipelineDesc.vertex.bufferCount = 1;
-	pipelineDesc.vertex.buffers = &vertexBufferLayout;
+	WGPUBlendState blendState = {
+		.color = (WGPUBlendComponent){
+			.srcFactor = WGPUBlendFactor_SrcAlpha,
+			.dstFactor = WGPUBlendFactor_OneMinusSrcAlpha,
+			.operation = WGPUBlendOperation_Add
+		},
+		.alpha = (WGPUBlendComponent){
+			.srcFactor = WGPUBlendFactor_Zero,
+			.dstFactor = WGPUBlendFactor_One,
+			.operation = WGPUBlendOperation_Add
+		}
+	};
 
-	pipelineDesc.vertex.module = shaderModule;
-	pipelineDesc.vertex.entryPoint = "vs_main";
-	pipelineDesc.vertex.constantCount = 0;
-	pipelineDesc.vertex.constants = NULL;
+	WGPUColorTargetState colorTarget = {
+		.format = swapChainFormat,
+		.blend = &blendState,
+		.writeMask = WGPUColorWriteMask_All
+	};
 
-	pipelineDesc.primitive.topology = WGPUPrimitiveTopology_TriangleList;
-	pipelineDesc.primitive.stripIndexFormat = WGPUIndexFormat_Undefined;
-	pipelineDesc.primitive.frontFace = WGPUFrontFace_CCW;
-	pipelineDesc.primitive.cullMode = WGPUCullMode_None;
+	WGPUFragmentState fragmentState = {
+		.module = shaderModule,
+		.entryPoint = "fs_main",
+		.constantCount = 0,
+		.constants = NULL,
+		.targetCount = 1,
+		.targets = &colorTarget
+	};
 
-	WGPUFragmentState fragmentState = {};
-	pipelineDesc.fragment = &fragmentState;
-	fragmentState.module = shaderModule;
-	fragmentState.entryPoint = "fs_main";
-	fragmentState.constantCount = 0;
-	fragmentState.constants = NULL;
+	WGPUPipelineLayoutDescriptor layoutDesc = {
+		.bindGroupLayoutCount = 0,
+		.bindGroupLayouts = NULL
+	};
 
-	WGPUBlendState blendState = {};
-	blendState.color.srcFactor = WGPUBlendFactor_SrcAlpha;
-	blendState.color.dstFactor = WGPUBlendFactor_OneMinusSrcAlpha;
-	blendState.color.operation = WGPUBlendOperation_Add;
-	blendState.alpha.srcFactor = WGPUBlendFactor_Zero;
-	blendState.alpha.dstFactor = WGPUBlendFactor_One;
-	blendState.alpha.operation = WGPUBlendOperation_Add;
+	WGPURenderPipelineDescriptor pipelineDesc = {
+		.vertex = (WGPUVertexState){
+			.bufferCount = 1,
+			.buffers = &vertexBufferLayout,
 
-    WGPUColorTargetState colorTarget = {};
-    colorTarget.format = swapChainFormat;
-    colorTarget.blend = &blendState;
-    colorTarget.writeMask = WGPUColorWriteMask_All;
-
-	fragmentState.targetCount = 1;
-	fragmentState.targets = &colorTarget;
-	
-	pipelineDesc.depthStencil = NULL;
-
-	pipelineDesc.multisample.count = 1;
-	pipelineDesc.multisample.mask = ~0u;
-	pipelineDesc.multisample.alphaToCoverageEnabled = false;
-
-	WGPUPipelineLayoutDescriptor layoutDesc = {};
-	layoutDesc.bindGroupLayoutCount = 0;
-	layoutDesc.bindGroupLayouts = NULL;
-	WGPUPipelineLayout layout = wgpuDeviceCreatePipelineLayout(device, &layoutDesc);
-	pipelineDesc.layout = layout;
+			.module = shaderModule,
+			.entryPoint = "vs_main",
+			.constantCount = 0,
+			.constants = NULL
+			},
+		.primitive = (WGPUPrimitiveState){
+			.topology = WGPUPrimitiveTopology_TriangleList,
+			.stripIndexFormat = WGPUIndexFormat_Undefined,
+			.frontFace = WGPUFrontFace_CCW,
+			.cullMode = WGPUCullMode_None
+		},
+		.fragment = &fragmentState,
+		.depthStencil = NULL,
+		.multisample = (WGPUMultisampleState){
+			.count = 1,
+			.mask = ~0u,
+			.alphaToCoverageEnabled = false
+		},
+		.layout = wgpuDeviceCreatePipelineLayout(device, &layoutDesc)
+	};
 
 	WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &pipelineDesc);
 	printf( "Render pipeline: %p\n", pipeline);
@@ -208,10 +226,11 @@ int main(int argc, char *argv[]) {
 	// We now divide the vector size by 5 fields.
 	int vertexCount = (int)((sizeof vertexData / sizeof vertexData[0]) / 5);
 	// Create vertex buffer
-	WGPUBufferDescriptor bufferDesc = {};
-	bufferDesc.size = sizeof vertexData;
-	bufferDesc.usage = WGPUBufferUsage_CopyDst | WGPUBufferUsage_Vertex;
-	bufferDesc.mappedAtCreation = false;
+	WGPUBufferDescriptor bufferDesc = {
+		.size = sizeof vertexData,
+		.usage = WGPUBufferUsage_CopyDst | WGPUBufferUsage_Vertex,
+		.mappedAtCreation = false
+	};
 	WGPUBuffer vertexBuffer = wgpuDeviceCreateBuffer(device, &bufferDesc);
 
 	// Upload geometry data to the buffer
@@ -226,24 +245,27 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
-		WGPUCommandEncoderDescriptor commandEncoderDesc = {};
-		commandEncoderDesc.label = "Command Encoder";
+		WGPUCommandEncoderDescriptor commandEncoderDesc = {
+			.label = "Command Encoder"
+		};
 		WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(device, &commandEncoderDesc);
 		
-		WGPURenderPassDescriptor renderPassDesc = {};
+		WGPURenderPassColorAttachment renderPassColorAttachment = {
+			.view = nextTexture,
+			.resolveTarget = NULL,
+			.loadOp = WGPULoadOp_Clear,
+			.storeOp = WGPUStoreOp_Store,
+			.clearValue = (WGPUColor){ 0.05, 0.05, 0.05, 1.0 }
+		};
+		WGPURenderPassDescriptor renderPassDesc = {
+			.colorAttachmentCount = 1,
+			.colorAttachments = &renderPassColorAttachment,
 
-		WGPURenderPassColorAttachment renderPassColorAttachment = {};
-		renderPassColorAttachment.view = nextTexture;
-		renderPassColorAttachment.resolveTarget = NULL;
-		renderPassColorAttachment.loadOp = WGPULoadOp_Clear;
-		renderPassColorAttachment.storeOp = WGPUStoreOp_Store;
-		renderPassColorAttachment.clearValue = (WGPUColor){ 0.05, 0.05, 0.05, 1.0 };
-		renderPassDesc.colorAttachmentCount = 1;
-		renderPassDesc.colorAttachments = &renderPassColorAttachment;
+			.depthStencilAttachment = NULL,
+			.timestampWriteCount = 0,
+			.timestampWrites = NULL
+		};
 
-		renderPassDesc.depthStencilAttachment = NULL;
-		renderPassDesc.timestampWriteCount = 0;
-		renderPassDesc.timestampWrites = NULL;
 		WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &renderPassDesc);
 
 		wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
@@ -256,10 +278,9 @@ int main(int argc, char *argv[]) {
 
 		wgpuRenderPassEncoderEnd(renderPass);
 		
-		// wgpuTextureViewDrop(nextTexture);
-
-		WGPUCommandBufferDescriptor cmdBufferDescriptor = {};
-		cmdBufferDescriptor.label = "Command buffer";
+		WGPUCommandBufferDescriptor cmdBufferDescriptor = {
+			.label = "Command buffer"
+		};
 		WGPUCommandBuffer command = wgpuCommandEncoderFinish(encoder, &cmdBufferDescriptor);
 		wgpuQueueSubmit(queue, 1, &command);
 

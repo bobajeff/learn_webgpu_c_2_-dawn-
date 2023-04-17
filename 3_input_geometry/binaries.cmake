@@ -6,7 +6,7 @@ target_link_libraries(helper_v1 PRIVATE webgpu_dawn)
 add_executable(vertex_attribute
 3_input_geometry/vertex_attribute.c
 )
-target_link_libraries(vertex_attribute PRIVATE glfw webgpu_dawn glfw3webgpu)
+target_link_libraries(vertex_attribute PRIVATE glfw webgpu_dawn glfw3webgpu helper_v1)
 
 #---------- MULTIPLE ATTRIBUTES (A)
 add_executable(multiple_attributes_a
