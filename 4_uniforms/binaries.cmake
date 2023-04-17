@@ -6,3 +6,12 @@ target_compile_definitions(a_first_uniform PRIVATE
     RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/4_uniforms/resources"
 )
 target_link_libraries(a_first_uniform PRIVATE glfw webgpu_dawn glfw3webgpu helper_v1)
+
+#---------- MORE_UNIFORMS
+add_executable(more_uniforms
+4_uniforms/more_uniforms.c
+)
+target_compile_definitions(more_uniforms PRIVATE
+    RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/4_uniforms/resources"
+)
+target_link_libraries(more_uniforms PRIVATE glfw webgpu_dawn glfw3webgpu helper_v1)

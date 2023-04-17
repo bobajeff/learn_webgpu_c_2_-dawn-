@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/a_first_uniform",
+            "program": "${workspaceFolder}/build/more_uniforms",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/",
