@@ -7,7 +7,7 @@ project(
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(dawn)
+add_subdirectory(dawn EXCLUDE_FROM_ALL)
 add_subdirectory(glfw3webgpu)
 # add_executable(App main.cpp)
 
