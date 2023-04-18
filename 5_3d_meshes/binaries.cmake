@@ -12,3 +12,12 @@ target_compile_definitions(a_simple_example PRIVATE
     RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/5_3d_meshes/resources"
 )
 target_link_libraries(a_simple_example PRIVATE glfw webgpu_dawn glfw3webgpu helper_v3)
+
+#---------- DEPTH_BUFFER
+add_executable(depth_buffer
+5_3d_meshes/depth_buffer.c
+)
+target_compile_definitions(depth_buffer PRIVATE
+    RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/5_3d_meshes/resources"
+)
+target_link_libraries(depth_buffer PRIVATE glfw webgpu_dawn glfw3webgpu helper_v3)

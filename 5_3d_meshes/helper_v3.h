@@ -101,4 +101,27 @@ static const WGPUBindGroupLayoutEntry BIND_GROUP_DEFAULT = {
 	.visibility = WGPUShaderStage_None,
 };
 
+static const WGPUDepthStencilState DEFAULT_DEPTH_STENCIL = {
+    .format = WGPUTextureFormat_Undefined,
+    .depthWriteEnabled = false,
+    .depthCompare = WGPUCompareFunction_Always,
+    .stencilReadMask = 0xFFFFFFFF,
+    .stencilWriteMask = 0xFFFFFFFF,
+    .depthBias = 0,
+    .depthBiasSlopeScale = 0,
+    .depthBiasClamp = 0,
+    .stencilFront = (WGPUStencilFaceState){
+        .compare = WGPUCompareFunction_Always,
+        .failOp = WGPUStencilOperation_Keep,
+        .depthFailOp = WGPUStencilOperation_Keep,
+        .passOp = WGPUStencilOperation_Keep
+    },
+    .stencilBack = (WGPUStencilFaceState){
+        .compare = WGPUCompareFunction_Always,
+        .failOp = WGPUStencilOperation_Keep,
+        .depthFailOp = WGPUStencilOperation_Keep,
+        .passOp = WGPUStencilOperation_Keep
+    }
+};
+
 #endif
