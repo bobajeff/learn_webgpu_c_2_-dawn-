@@ -280,7 +280,7 @@ int main(int argc, char *argv[]) {
 		glfwPollEvents();
 		uniforms.time = glfwGetTime();
 		// wgpuQueueWriteBuffer(queue, uniformBuffer, 0, &uniforms, sizeof(MyUniforms));
-		// wgpuQueueWriteBuffer(queue, uniformBuffer, offsetof(MyUniforms, time), &uniforms.time, sizeof(uniforms.time));
+		wgpuQueueWriteBuffer(queue, uniformBuffer, offsetof(MyUniforms, time), &uniforms.time, sizeof(uniforms.time));
 		// wgpuQueueWriteBuffer(queue, uniformBuffer, offsetof(MyUniforms, color), &uniforms.color, sizeof(uniforms.color));
 
 		WGPUTextureView nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);

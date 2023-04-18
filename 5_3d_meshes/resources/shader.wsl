@@ -23,10 +23,13 @@ struct MyUniforms {
 fn vs_main(in: VertexInput) -> VertexOutput {
 	var out: VertexOutput;
 	let ratio = 640.0 / 480.0;
+	let angle = uMyUniforms.time; // you can multiply it go rotate faster
+	let alpha = cos(angle);
+	let beta = sin(angle);
 	var position = vec3<f32>(
 		in.position.x,
-		in.position.y + 0.5 * in.position.z, // add a bit of Z in Y...
-		in.position.z + 0.5 * in.position.y, // ...and a bit of Y in Z.
+		alpha * in.position.y + beta * in.position.z,
+		alpha * in.position.z - beta * in.position.y,
 	);
 	out.position = vec4<f32>(position.x, position.y * ratio, 0.0, 1.0);
 	out.color = in.color;
