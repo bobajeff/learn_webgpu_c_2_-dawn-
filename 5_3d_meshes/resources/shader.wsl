@@ -25,8 +25,8 @@ fn vs_main(in: VertexInput) -> VertexOutput {
 	let ratio = 640.0 / 480.0;
 	var position = vec3<f32>(
 		in.position.x,
-		in.position.z, // swap axis Y and Z
-		in.position.y,
+		in.position.y + 0.5 * in.position.z, // add a bit of Z in Y...
+		in.position.z + 0.5 * in.position.y, // ...and a bit of Y in Z.
 	);
 	out.position = vec4<f32>(position.x, position.y * ratio, 0.0, 1.0);
 	out.color = in.color;
