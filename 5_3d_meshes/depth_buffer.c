@@ -225,7 +225,7 @@ int main(int argc, char *argv[]) {
 			.mask = ~0u,
 			.alphaToCoverageEnabled = false
 		},
-		.layout = wgpuDeviceCreatePipelineLayout(device, &layoutDesc),
+		.layout = wgpuDeviceCreatePipelineLayout(device, &layoutDesc)
 	};
 
 	WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &pipelineDesc);
