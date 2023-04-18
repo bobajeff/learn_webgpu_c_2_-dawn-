@@ -18,6 +18,7 @@ add_subdirectory(glfw3webgpu)
 # )
 
 # target_compile_options(App PRIVATE -Wall -Wextra -pedantic)
+set(CMAKE_BUILD_TYPE Debug)
 
 include(1_getting_started/binaries.cmake)
 include(2_hello_triangle/binaries.cmake)
