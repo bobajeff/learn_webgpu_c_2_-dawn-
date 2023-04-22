@@ -21,3 +21,12 @@ target_compile_definitions(depth_buffer PRIVATE
     RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/5_3d_meshes/resources"
 )
 target_link_libraries(depth_buffer PRIVATE glfw webgpu_dawn glfw3webgpu helper_v3)
+
+#---------- TRANSFORMATION_MATRICES
+add_executable(transformation_matrices
+5_3d_meshes/transformation_matrices.c
+)
+target_compile_definitions(transformation_matrices PRIVATE
+    RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/5_3d_meshes/resources"
+)
+target_link_libraries(transformation_matrices PRIVATE glfw webgpu_dawn glfw3webgpu cglm helper_v3)

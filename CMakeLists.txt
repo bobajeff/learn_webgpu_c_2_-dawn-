@@ -6,8 +6,11 @@ project(
 )
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_subdirectory(dawn EXCLUDE_FROM_ALL)
+add_subdirectory(cglm)
+# set(DAWN_ALWAYS_ASSERT ON)
 add_subdirectory(glfw3webgpu)
 # add_executable(App main.cpp)
 
@@ -18,7 +21,7 @@ add_subdirectory(glfw3webgpu)
 # )
 
 # target_compile_options(App PRIVATE -Wall -Wextra -pedantic)
-set(CMAKE_BUILD_TYPE Debug)
+
 
 include(1_getting_started/binaries.cmake)
 include(2_hello_triangle/binaries.cmake)

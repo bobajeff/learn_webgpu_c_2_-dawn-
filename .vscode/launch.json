@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/depth_buffer",
+            "program": "${workspaceFolder}/build/transformation_matrices",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/",
